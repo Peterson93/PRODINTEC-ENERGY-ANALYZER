@@ -1,0 +1,40 @@
+# Entorno virtual
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# VS Code
+.vscode/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# SQLite
+*.sqlite3
+*.db
+
+# Archivos temporales
+*.tmp
+
+# Distribución
+build/
+dist/
+
+# PyInstaller
+*.spec
+
+# Variables de entorno
+.env
+
+# Reportes generados
+reports/*.pdf
+reports/*.xlsx
