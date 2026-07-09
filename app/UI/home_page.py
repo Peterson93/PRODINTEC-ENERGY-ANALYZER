@@ -2,28 +2,27 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QLabel,
-    QPushButton,
     QVBoxLayout,
     QWidget,
 )
 
+from app.widgets.buttons.primary_button import PrimaryButton
+from app.wizard.study_wizard import StudyWizard
+
 
 class HomePage(QWidget):
-    """
-    Página de inicio de la aplicación.
-    """
 
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
 
         self.build_ui()
 
-    def build_ui(self) -> None:
+    def build_ui(self):
 
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignCenter)
         layout.setSpacing(20)
-        title = QLabel("Bienvenido a PRODINTEC S.A.S")
+        title = QLabel("Bienvenido a PRODINTEC")
         title.setAlignment(Qt.AlignCenter)
         title.setFont(QFont("Segoe UI", 24, QFont.Bold))
         subtitle = QLabel(
@@ -31,13 +30,13 @@ class HomePage(QWidget):
         )
 
         subtitle.setAlignment(Qt.AlignCenter)
-        subtitle.setFont(QFont("Segoe UI", 12))
-        self.new_study_button = QPushButton(
-            " Nuevo Estudio Solar"
+        self.new_study_button = PrimaryButton(
+            "Nuevo Estudio Solar"
         )
 
-        self.new_study_button.setMinimumHeight(50)
-        self.new_study_button.setMinimumWidth(260)
+        self.new_study_button.clicked.connect(
+            self.open_study_wizard
+        )
 
         layout.addWidget(title)
         layout.addWidget(subtitle)
@@ -46,3 +45,8 @@ class HomePage(QWidget):
             self.new_study_button,
             alignment=Qt.AlignCenter,
         )
+
+    def open_study_wizard(self):
+
+        wizard = StudyWizard(self)
+        wizard.exec()
