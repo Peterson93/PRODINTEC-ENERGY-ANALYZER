@@ -7,6 +7,8 @@ class StudyForm:
     # Cliente
     company: str = ""
     contact: str = ""
+    email: str = ""
+    phone: str = ""
 
     # Energía
     monthly_consumption_kwh: float = 0.0
@@ -20,3 +22,7 @@ class StudyForm:
 
     # Sistema
     panel_power_wp: float = 550
+
+    # inversion
+    investment_cost: float = 0.0
+    notes: str = ""

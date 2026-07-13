@@ -34,3 +34,26 @@
 # Sprint 4
 
 - [ ] Dashboard
+
+
+
+
+
+# PRODINTEC ENERGY ANALYZER
+
+## MVP v0.1
+
+- [x] Crear estructura del proyecto
+- [x] Crear navegación
+- [x] Crear Home
+- [x] Crear Wizard
+- [x] Crear SolarEngine
+- [x] Crear StudyController
+- [x] Crear ProjectMapper
+- [x] Crear Validators
+
+- [ ] Conectar Wizard al Dashboard
+- [ ] Mostrar resultados en interfaz
+- [ ] Guardar estudio
+- [ ] Historial
+- [ ] PDF

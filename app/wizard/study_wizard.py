@@ -1,31 +1,21 @@
-from PySide6.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QStackedWidget,
-    QHBoxLayout,
-)
+from PySide6.QtWidgets import QWizard
 
-from app.widgets.buttons.primary_button import PrimaryButton
+from app.wizard.pages.client_page import ClientPage
+from app.wizard.pages.consumption_page import ConsumptionPage
+from app.models.forms.study_form import StudyForm
 
-
-class StudyWizard(QDialog):
+class StudyWizard(QWizard):
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.setWindowTitle("Nuevo Estudio Solar")
+        self.study_form = StudyForm()
+
+        self.setWindowTitle("Nuevo Estudio")
         self.resize(900, 650)
-        self.build_ui()
 
-    def build_ui(self):
+        #  páginas
+        self.addPage(ClientPage())
+        self.addPage(ConsumptionPage())
 
-        layout = QVBoxLayout(self)
-        self.stack = QStackedWidget()
-        layout.addWidget(self.stack)
-        navigation = QHBoxLayout()
-        navigation.addStretch()
-        self.previous_button = PrimaryButton("← Anterior")
-        self.next_button = PrimaryButton("Siguiente →")
-        navigation.addWidget(self.previous_button)
-        navigation.addWidget(self.next_button)
-        layout.addLayout(navigation)
+        self.setOption(QWizard.NoBackButtonOnStartPage, True)

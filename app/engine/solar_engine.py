@@ -6,7 +6,7 @@ Sprint 4 - Versión 0.1
 
 from math import ceil
 from app.models.project import Project
-from app.models.solar_results import SolarResult
+from app.models.solar_result import SolarResult
 
 
 class SolarEngine:

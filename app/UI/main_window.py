@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QStackedWidget,
 )
 
-from app.UI.home_page import HomePage
+from app.ui.home_page import HomePage
 from app.widgets.navigation_panel import NavigationPanel
 from app.widgets.topbar import TopBar
 
