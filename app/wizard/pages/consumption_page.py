@@ -98,19 +98,8 @@ class ConsumptionPage(QWizardPage):
         # Guardar la información en el StudyForm
         form = self.wizard().study_form
 
-        form.monthly_consumption_kwh = (
-            self.monthly_consumption.value()
-        )
-
-        form.average_tariff = (
-            self.average_tariff.value()
-        )
-
-        form.target_coverage = (
-            self.coverage.value()
-        )
-
-        # Prueba 
-        print(form)
+        form.monthly_consumption_kwh = self.monthly_consumption.value()
+        form.average_tariff = self.average_tariff.value()
+        form.target_coverage = self.coverage.value()
 
         return True

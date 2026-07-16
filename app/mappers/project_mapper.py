@@ -19,8 +19,13 @@ class ProjectMapper:
         project.location.department = form.department
         project.location.city = form.city
 
-        project.available_area_m2 = form.available_area_m2
+        project.location.available_area_m2 = form.available_area_m2
 
         project.solar_system.panel_power_wp = form.panel_power_wp
+
+        print("=" * 50)
+        print("PROJECT CREADO")
+        print(project)
+        print("=" * 50)
 
         return project

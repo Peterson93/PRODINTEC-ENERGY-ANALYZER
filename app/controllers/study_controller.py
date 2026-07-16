@@ -1,3 +1,6 @@
+import os
+
+print("STUDY CONTROLLER:", os.path.abspath(__file__))
 from app.engine.solar_engine import SolarEngine
 from app.mappers.project_mapper import ProjectMapper
 
@@ -11,4 +14,6 @@ class StudyController:
 
         project = ProjectMapper.from_form(form)
 
-        return self.engine.calculate(project)
+        result = self.engine.calculate(project)
+
+        return result

@@ -53,21 +53,16 @@ class ClientPage(QWizardPage):
 
     def validatePage(self):
 
-        print("1. Entró a validatePage")
-
+        
         try:
             company = self.company_edit.text().strip()
-            print("2. Empresa:", company)
 
             form = self.wizard().study_form
-            print("3. StudyForm encontrado")
 
             form.company = company
             form.contact = self.contact_edit.text().strip()
             form.email = self.email_edit.text().strip()
             form.phone = self.phone_edit.text().strip()
-
-            print("4. Datos guardados")
 
             return True
 

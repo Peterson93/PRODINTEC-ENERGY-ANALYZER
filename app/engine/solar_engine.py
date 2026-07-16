@@ -30,7 +30,7 @@ class SolarEngine:
         SolarResult
             Resultados del dimensionamiento.
         """
-
+            
         result = SolarResult()
 
         # 1. Energía objetivo
@@ -51,7 +51,7 @@ class SolarEngine:
             target_energy
             / (
                 project.peak_sun_hours
-                * project.performance_ratio
+                * project.solar_system.performance_ratio
                 * 30
             )
         )
@@ -60,14 +60,14 @@ class SolarEngine:
         
         panel_count = ceil(
             required_power * 1000
-            / project.panel_power_wp
+            / project.solar_system.panel_power_wp
         )
 
         # 4. Potencia realmente instalada
 
         installed_power = (
             panel_count
-            * project.panel_power_wp
+            * project.solar_system.panel_power_wp
             / 1000
         )
 
@@ -75,7 +75,7 @@ class SolarEngine:
 
         required_area = (
             panel_count
-            * project.panel_area_m2
+            * project.solar_system.panel_area_m2
         )
         
         # 6. Generación mensual estimada
@@ -83,7 +83,7 @@ class SolarEngine:
         monthly_generation = (
             installed_power
             * project.peak_sun_hours
-            * project.performance_ratio
+            * project.solar_system.performance_ratio
             * 30
         )
         
@@ -111,20 +111,28 @@ class SolarEngine:
         * 12
         )
 
-        # 11. payback
+        print("=" * 40)
+        print("Potencia instalada:", installed_power)
+        print("Inversión:", estimated_investment)
+        print("Generación mensual:", monthly_generation)
+        print("Tarifa:", project.average_tariff)
+        print("Ahorro mensual:", monthly_savings)
+        print("Ahorro anual:", annual_savings)
+        print("=" * 40)
 
-        payback = (
-        estimated_investment
-        / annual_savings
-        )
+       # 11. Payback
 
-        # 12.ROI
+        if annual_savings > 0:
+            payback = estimated_investment / annual_savings
+        else:
+            payback = 0
 
-        roi = (
-        annual_savings
-        / estimated_investment
-        ) * 100
+        # 12. ROI
 
+        if estimated_investment > 0:
+            roi = (annual_savings / estimated_investment) * 100
+        else:
+            roi = 0
         # viabilidad
 
         if payback <= 5:
@@ -152,15 +160,5 @@ class SolarEngine:
         result.payback_years = round(payback,1,)
         result.roi = round(roi,1,)
         result.viability = viability
-
-        # Estos cálculos se implementarán en el Sprint 5
-
-        result.monthly_savings = 0.0
-        result.annual_savings = 0.0
-        result.estimated_investment = 0.0
-        result.payback_years = 0.0
-        result.roi = 0.0
-        result.co2_avoided_tons = 0.0
-        result.viability = ""
-
+  
         return result

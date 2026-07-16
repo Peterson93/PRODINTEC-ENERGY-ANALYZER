@@ -1,7 +1,7 @@
 from dataclasses import dataclass,field
 from datetime import datetime
-from location import Location
-from solar_system import SolarSystem
+from app.models.location import Location
+from app.models.solar_system import SolarSystem
 
 @dataclass
 class Project:
@@ -29,9 +29,7 @@ class Project:
     # Panel seleccionado
     solar_system: SolarSystem = field(default_factory=SolarSystem)
 
-    # Parámetros técnicos
-    performance_ratio: float = 0.80
-
+   
     # Costos
 
     cost_per_kwp = 3_800_000
