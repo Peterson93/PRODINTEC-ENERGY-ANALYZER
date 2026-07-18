@@ -21,14 +21,27 @@ class StudyWizard(QWizard):
         self.resize(900, 650)
 
         #  páginas
-        self.addPage(ClientPage())
-        self.addPage(ConsumptionPage())
+        self.client_page = ClientPage()
+        self.consumption_page = ConsumptionPage()
+
+        self.addPage(self.client_page)
+        self.addPage(self.consumption_page)
 
         self.setOption(QWizard.NoBackButtonOnStartPage, True)
 
     def accept(self):
 
-        
+        self.study_form.monthly_consumption_kwh = (
+        self.consumption_page.monthly_consumption.value()
+    )
+
+        self.study_form.average_tariff = (
+        self.consumption_page.average_tariff.value()
+    )
+
+        self.study_form.target_coverage = (
+        self.consumption_page.coverage.value()
+    )
 
         result = self.controller.calculate(self.study_form)
 
