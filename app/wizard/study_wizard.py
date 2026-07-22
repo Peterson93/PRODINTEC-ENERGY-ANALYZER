@@ -8,6 +8,7 @@ from app.wizard.pages.client_page import ClientPage
 from app.wizard.pages.consumption_page import ConsumptionPage
 from app.models.forms.study_form import StudyForm
 from app.controllers.study_controller import StudyController
+from app.ui.result_window import ResultWindow
 
 class StudyWizard(QWizard):
 
@@ -44,5 +45,8 @@ class StudyWizard(QWizard):
     )
 
         result = self.controller.calculate(self.study_form)
+
+        self.result_window = ResultWindow(result)
+        self.result_window.show()
 
         super().accept()
