@@ -41,6 +41,12 @@ class NavigationPanel(QWidget):
         self.projects_button = QPushButton("Proyectos")
         self.settings_button = QPushButton("Configuración")
 
+        self.home_button.setObjectName("menuActive")
+
+        self.new_project_button.setObjectName("menuButton")
+        self.projects_button.setObjectName("menuButton")
+        self.settings_button.setObjectName("menuButton")
+
         buttons = [
             self.home_button,
             self.new_project_button,
@@ -56,7 +62,7 @@ class NavigationPanel(QWidget):
                 QSizePolicy.Expanding,
                 QSizePolicy.Fixed,
             )
-
+           
             layout.addWidget(button)
 
         layout.addStretch()

@@ -91,6 +91,27 @@ class SolarEngine:
         
         annual_generation = monthly_generation * 12
 
+        # Distribución mensual estimada (%)
+        monthly_profile = [
+            0.085,
+            0.082,
+            0.086,
+            0.081,
+            0.080,
+            0.083,
+            0.086,
+            0.087,
+            0.082,
+            0.080,
+            0.079,
+            0.089,
+        ]
+
+        monthly_generation_list = [
+         round(annual_generation * factor, 1)
+         for factor in monthly_profile
+        ]
+
         # 8.inversion
 
         estimated_investment = (
@@ -160,5 +181,7 @@ class SolarEngine:
         result.payback_years = round(payback,1,)
         result.roi = round(roi,1,)
         result.viability = viability
+
+        result.monthly_generation = monthly_generation_list
   
         return result

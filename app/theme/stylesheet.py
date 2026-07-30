@@ -12,12 +12,13 @@ def load_stylesheet():
         font-size: 10pt;
     }}
 
-    QPushButton {{
-        background-color: {Colors.PRIMARY};
-        border-radius: 10px;
-        padding: 10px;
-        color: white;
-        font-weight: bold;
+    QPushButton#menuButton{{
+    background-color:#242424;
+    color:white;
+    border:1px solid #343434;
+    border-radius:10px;
+    padding:10px;
+    font-weight:bold;
     }}
 
     QPushButton:hover {{
@@ -28,23 +29,31 @@ def load_stylesheet():
         background-color: #1565C0;
     }}
 
+    QPushButton#menuActive{{
+    background-color:#1976D2;
+    color:white;
+    border-radius:10px;
+    padding:10px;
+    font-weight:bold;
+    }}
+
     QFrame#StatCard{{
 
     background-color:#242424;
-    border:1px solid #3A3A3A;
-    border-radius:14px;
+    border:1px solid #343434;
+    border-radius:10px;
     }}
 
     QFrame#StatCard[status="success"]{{
-    border:2px solid #2ECC71;
+    border:1px solid #2ECC71;
     }}
 
     QFrame#StatCard[status="warning"]{{
-    border:2px solid #F1C40F;
+    border:1px solid #F1C40F;
     }}
 
     QFrame#StatCard[status="danger"]{{
-    border:2px solid #E74C3C;
+    border:1px solid #E74C3C;
     }}
 
     QLabel#StatCardIcon{{
@@ -52,19 +61,20 @@ def load_stylesheet():
     }}
 
     QLabel#StatCardTitle{{
-    color:#B8B8B8;
-    font-size:13px;
-    font-weight:500;
+    color:#C7C7C7;
+    font-size:12px;
+    font-weight:400;
     }}
 
     QLabel#StatCardValue{{
     color:white;
-    font-size:30px;
-    font-weight:bold;
+    font-size:15px;
+    font-weight:700;
     }}
-
-    QLabel#StatCardUnit{{
-    color:#8E8E8E;
-    font-size:12px;
+    
+    QLabel#StatCardIcon,
+    QLabel#StatCardTitle,
+    QLabel#StatCardValue{{
+    background-color: transparent;
     }}
     """

@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QFrame,
     QLabel,
     QVBoxLayout,
+    QScrollArea
 )
 
 
@@ -13,34 +14,32 @@ class StatCard(QFrame):
         super().__init__()
 
         self.setObjectName("StatCard")
-        self.setMinimumSize(240, 170)
+        self.setMinimumWidth(130)
+        self.setMaximumHeight(100)
 
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignCenter)
-        layout.setSpacing(10)
-        layout.setContentsMargins(15, 15, 15, 15)
+        layout.setSpacing(6)
+        layout.setContentsMargins(10, 10, 10, 10)
 
         self.icon = QLabel(icon)
         self.icon.setObjectName("StatCardIcon")
         self.icon.setAlignment(Qt.AlignCenter)
-        self.icon.setFont(QFont("Segoe UI Emoji", 24))
+        self.icon.setFont(QFont("Segoe UI Emoji", 20))
 
         self.title = QLabel(title)
         self.title.setObjectName("StatCardTitle")
         self.title.setAlignment(Qt.AlignCenter)
 
-        self.value = QLabel(value)
+        text = value if not unit else f"{value} {unit}"
+        self.value = QLabel(text)
         self.value.setObjectName("StatCardValue")
         self.value.setAlignment(Qt.AlignCenter)
-
-        self.unit = QLabel(unit)
-        self.unit.setObjectName("StatCardUnit")
-        self.unit.setAlignment(Qt.AlignCenter)
 
         layout.addWidget(self.icon)
         layout.addWidget(self.title)
         layout.addWidget(self.value)
-        layout.addWidget(self.unit)
+        
 
         if status:
             self.setProperty("status", status)
