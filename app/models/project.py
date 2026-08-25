@@ -36,6 +36,8 @@ class Project:
     annual_energy_price_increase = 6.0
     annual_maintenance_percent = 1.0
     annual_panel_degradation = 0.5
+    discount_rate: float = 10.0
+    project_lifetime_years: int = 25
 
     # Resultados
     installed_power_kwp: float = 0.0
@@ -43,3 +45,4 @@ class Project:
     required_area_m2: float = 0.0
     monthly_generation_kwh: float = 0.0
     annual_generation_kwh: float = 0.0
+    

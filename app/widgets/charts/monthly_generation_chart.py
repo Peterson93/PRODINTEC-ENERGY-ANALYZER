@@ -1,5 +1,6 @@
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
+from matplotlib.ticker import FuncFormatter
 
 
 class MonthlyGenerationChart(FigureCanvasQTAgg):
@@ -11,6 +12,7 @@ class MonthlyGenerationChart(FigureCanvasQTAgg):
         super().__init__(self.figure)
 
         self.axes = self.figure.add_subplot(111)
+        
 
         self.draw_chart()
 
@@ -27,15 +29,33 @@ class MonthlyGenerationChart(FigureCanvasQTAgg):
 
         self.axes.clear()
 
-        self.axes.bar(
-            months,
-            generation,
-            color="#1976D2",
-            edgecolor="#42A5F5",
-            linewidth=1
+        bars = self.axes.bar(
+        months,
+        generation,
+        width=0.45,          
+        color="#1976D2",
+        edgecolor="#42A5F5",
+        linewidth=1
         )
 
-        self.axes.set_title("Generación mensual", color="white")
+        for bar in bars:
+
+            height = bar.get_height()
+
+            self.axes.text(
+            bar.get_x() + bar.get_width() / 2,
+            height + 30,
+            f"{height:,.0f}",
+            ha="center",
+            va="bottom",
+            fontsize=8,
+            color="white"
+            )
+
+        self.axes.yaxis.set_major_formatter(
+            FuncFormatter(lambda x, pos: f"{x:,.0f}")
+            )
+        self.axes.set_title("", color="white")
         self.axes.set_ylabel("kWh", color="white")
 
         self.axes.set_facecolor("#1E1E1E")
@@ -57,3 +77,4 @@ class MonthlyGenerationChart(FigureCanvasQTAgg):
         )
 
         self.figure.tight_layout()
+        self.draw()

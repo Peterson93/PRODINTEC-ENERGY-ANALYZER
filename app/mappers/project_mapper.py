@@ -16,6 +16,8 @@ class ProjectMapper:
         project.average_tariff = form.average_tariff
         project.target_coverage = form.target_coverage
 
+        project.discount_rate = form.discount_rate
+
         project.location.department = form.department
         project.location.city = form.city
 

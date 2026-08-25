@@ -16,4 +16,8 @@ class SolarResult:
     payback_years: float = 0.0
     roi: float = 0.0
     co2_avoided_tons: float = 0.0
+    tir:float= 0.0
+    van: float = 0.0
     viability: str = ""
+    
+    cash_flows: List[float] = field(default_factory=list)

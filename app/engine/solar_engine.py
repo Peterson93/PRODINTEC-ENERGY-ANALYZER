@@ -14,6 +14,39 @@ class SolarEngine:
     Motor encargado de realizar el cálculo preliminar de un sistema
     de generación solar fotovoltaico.
     """
+    @staticmethod
+    def calculate_tir(cash_flows, guess=0.10):
+    
+                rate = guess
+    
+                for _ in range(100):
+    
+                    npv = 0
+                    derivative = 0
+    
+                    for year, cash_flow in enumerate(cash_flows):
+    
+                        npv += cash_flow / ((1 + rate) ** year)
+    
+                        if year > 0:
+                            derivative -= (
+                                year
+                                * cash_flow
+                                / ((1 + rate) ** (year + 1))
+                            )
+    
+                    if abs(derivative) < 1e-10:
+                        break
+    
+                    new_rate = rate - npv / derivative
+    
+                    if abs(new_rate - rate) < 1e-7:
+                        rate = new_rate
+                        break
+    
+                    rate = new_rate
+    
+                return rate
 
     @staticmethod
     def calculate(project: Project) -> SolarResult:
@@ -132,6 +165,75 @@ class SolarEngine:
         * 12
         )
 
+        # 11. Evaluación financiera
+
+        discount_rate = project.discount_rate / 100
+        energy_price_increase = project.annual_energy_price_increase / 100
+        panel_degradation = project.annual_panel_degradation / 100
+        maintenance_percent = project.annual_maintenance_percent / 100
+
+        life_years = project.project_lifetime_years
+
+        van = -estimated_investment
+
+        cash_flows = [-estimated_investment]
+
+        for year in range(1, life_years + 1):
+
+            # Generación anual considerando degradación
+            generation_year = (
+            annual_generation
+            * ((1 - panel_degradation) ** (year - 1))
+            )
+
+            # Tarifa eléctrica considerando incremento anual
+            tariff_year = (
+            project.average_tariff
+            * ((1 + energy_price_increase) ** (year - 1))
+            )
+
+            # Ahorro bruto del año
+            savings_year = generation_year * tariff_year
+
+            # Mantenimiento anual
+            maintenance_year = (
+            estimated_investment
+            * maintenance_percent
+            )
+
+            # Flujo de caja neto
+            cash_flow = savings_year - maintenance_year
+
+            cash_flows.append(cash_flow)
+
+            print(
+            "AÑO:",
+            year,
+            "GENERACIÓN:",
+            generation_year,
+            "TARIFA:",
+            tariff_year,
+            "AHORRO:",
+            savings_year,
+            "MANTENIMIENTO:",
+            maintenance_year,
+            "FLUJO:",
+            cash_flow
+            )
+
+            # Valor presente del flujo
+            present_value = (
+            cash_flow
+            / ((1 + discount_rate) ** year)
+            )
+
+            van += present_value
+
+        tir = SolarEngine.calculate_tir(cash_flows)
+        tir_percent = tir * 100
+
+        
+
         print("=" * 40)
         print("Potencia instalada:", installed_power)
         print("Inversión:", estimated_investment)
@@ -154,6 +256,9 @@ class SolarEngine:
             roi = (annual_savings / estimated_investment) * 100
         else:
             roi = 0
+
+        
+
         # viabilidad
 
         if payback <= 5:
@@ -167,7 +272,11 @@ class SolarEngine:
         else:
 
             viability = "🔴 Baja"
-        
+
+        # 13. CO₂ evitado
+
+        co2_avoided = annual_generation * 0.00018
+
         # . Guardar resultados
         
         result.installed_power_kwp = round(installed_power, 2)
@@ -180,7 +289,28 @@ class SolarEngine:
         result.annual_savings = round(annual_savings)
         result.payback_years = round(payback,1,)
         result.roi = round(roi,1,)
+        result.tir = round(tir_percent,1)
+
+        print("=" * 50)
+        print("EVALUACIÓN FINANCIERA")
+        print("Inversión:", estimated_investment)
+        print("Ahorro anual inicial:", annual_savings)
+        print("Tasa descuento:", project.discount_rate)
+        print("Incremento tarifa:", project.annual_energy_price_increase)
+        print("Degradación:", project.annual_panel_degradation)
+        print("Mantenimiento:", project.annual_maintenance_percent)
+        print("Vida útil:", project.project_lifetime_years)
+        print("VAN:", van)
+        print("=" * 50)
+
+        result.van = round(van)
+        result.co2_avoided_tons = round(co2_avoided, 2)
         result.viability = viability
+
+        result.cash_flows = [
+        round(value)
+        for value in cash_flows
+        ]
 
         result.monthly_generation = monthly_generation_list
   

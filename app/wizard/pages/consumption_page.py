@@ -42,7 +42,7 @@ class ConsumptionPage(QWizardPage):
         self.average_tariff.setDecimals(0)
         self.average_tariff.setPrefix("$ ")
         self.average_tariff.setSuffix(" COP/kWh")
-        self.average_tariff.setValue(980)
+        self.average_tariff.setValue(1115)
 
         # Cobertura objetivo
         self.coverage = QDoubleSpinBox()
@@ -50,6 +50,14 @@ class ConsumptionPage(QWizardPage):
         self.coverage.setDecimals(0)
         self.coverage.setSuffix(" %")
         self.coverage.setValue(90)
+
+        # Tasa de descuento
+        self.discount_rate = QDoubleSpinBox()
+        self.discount_rate.setRange(0, 30)
+        self.discount_rate.setDecimals(1)
+        self.discount_rate.setSingleStep(0.5)
+        self.discount_rate.setSuffix(" %")
+        self.discount_rate.setValue(10.0)
 
         form.addRow(
             QLabel("Consumo mensual:"),
@@ -64,6 +72,11 @@ class ConsumptionPage(QWizardPage):
         form.addRow(
             QLabel("Cobertura objetivo:"),
             self.coverage
+        )
+
+        form.addRow(
+            QLabel("Tasa de descuento:"),
+            self.discount_rate
         )
 
         group.setLayout(form)
@@ -101,5 +114,6 @@ class ConsumptionPage(QWizardPage):
         form.monthly_consumption_kwh = self.monthly_consumption.value()
         form.average_tariff = self.average_tariff.value()
         form.target_coverage = self.coverage.value()
+        form.discount_rate = self.discount_rate.value()
 
         return True

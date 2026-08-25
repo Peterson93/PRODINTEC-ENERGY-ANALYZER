@@ -14,6 +14,7 @@ class StudyForm:
     monthly_consumption_kwh: float = 0.0
     average_tariff: float = 0.0
     target_coverage: float = 90.0
+    discount_rate: float = 10.0
 
     # Sitio
     department: str = ""

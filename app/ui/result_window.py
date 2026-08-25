@@ -11,7 +11,8 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 from app.widgets.cards.stat_card import StatCard
 from app.widgets.charts.monthly_generation_chart import MonthlyGenerationChart
-
+from app.widgets.cards.Metric_Card import MetricCard
+from app.widgets.charts.cash_flow_chart import CashFlowChart
 
 class ResultWindow(QWidget):
 
@@ -61,62 +62,55 @@ class ResultWindow(QWidget):
 
         cards = [
 
-        ("⚡", "Potencia instalada",
+        ("app/assets/icons/power.svg", "Potencia instalada",
         f"{self.result.installed_power_kwp}",
         "kWp", None),
 
-        (" ", "Paneles",
+        ("app/assets/icons/panels.svg", "Paneles",
         str(self.result.panel_count),
         "paneles", None),
 
-        ("📐", "Área requerida",
+        ("app/assets/icons/area.svg", "Área requerida",
         f"{self.result.required_area_m2}",
         "m²", None),
 
-        ("☀️", "Generación mensual",
+        ("app/assets/icons/generation.svg", "Generación mensual",
         f"{self.result.monthly_generation_kwh}",
         "kWh", None),
 
-        ("📈", "Generación anual",
+        ("app/assets/icons/generation_annual.svg", "Generación anual",
         f"{self.result.annual_generation_kwh}",
         "kWh", None),
 
-        ("💰", "Inversión",
+        ("app/assets/icons/investment.svg", "Inversión",
         f"${self.result.estimated_investment:,.0f}",
         "COP", None),
 
-        ("💵", "Ahorro mensual",
+        ("app/assets/icons/saving_monthly.svg", "Ahorro mensual",
         f"${self.result.monthly_savings:,.0f}",
         "COP", None),
 
-        ("💸", "Ahorro anual",
+        ("app/assets/icons/savings_annual.svg", "Ahorro anual",
         f"${self.result.annual_savings:,.0f}",
         "COP", None),
 
-        ("⏳", "Payback",
+        ("app/assets/icons/payback.svg", "Payback",
         f"{self.result.payback_years}",
         "años", None),
 
-        ("📊", "ROI",
-        f"{self.result.roi}",
-        "%", None),
-
-        (
-        "📋",
+        ("app/assets/icons/viability.svg",
         "Viabilidad",
         self.result.viability,
         "",
         status
         ),
 
-        (
-        "🌱",
+        ("app/assets/icons/co2.svg",
         "CO₂ evitado",
         f"{self.result.co2_avoided_tons}",
         "ton/año",
         None
         ),
-
         ]
 
         grid = QGridLayout()
@@ -144,70 +138,96 @@ class ResultWindow(QWidget):
 
         layout.addLayout(grid)
 
-        bottom_layout = QHBoxLayout()
-        bottom_layout.setSpacing(10)
-
-        left_panel = QFrame()
-        left_panel.setObjectName("ResultCard")
-        left_panel.setMinimumHeight(260)
-
-        left_layout = QVBoxLayout(left_panel)
-
-        left_title = QLabel("Generación mensual")
-        left_title.setAlignment(Qt.AlignCenter)
-        left_title.setFont(QFont("Segoe UI", 12, QFont.Bold))
-
-        left_layout.addWidget(left_title)
-
-        chart = MonthlyGenerationChart(self.result)
-        left_layout.addWidget(chart)
-
-        right_panel = QFrame()
-        right_panel.setObjectName("ResultCard")
-        right_panel.setMinimumHeight(260)
-
-        bottom_layout.addWidget(left_panel, 3)
-        bottom_layout.addWidget(right_panel, 1)
-
-        right_layout = QVBoxLayout(right_panel)
-
-        right_title = QLabel("Indicadores financieros")
-        right_title.setAlignment(Qt.AlignCenter)
-        right_title.setFont(QFont("Segoe UI", 12, QFont.Bold))
-
-        right_layout.addWidget(right_title)
-        right_layout.addStretch()
-
-        layout.addLayout(bottom_layout)
 
         # ==========================================
         # PANEL DE ANÁLISIS
         # ==========================================
 
-        analysis_title = QLabel("ANÁLISIS ENERGÉTICO")
-        analysis_title.setAlignment(Qt.AlignCenter)
-        analysis_title.setFont(QFont("Segoe UI", 16, QFont.Bold))
+        graph_title = QLabel("GENERACIÓN MENSUAL")
+        graph_title.setAlignment(Qt.AlignCenter)
+        graph_title.setFont(QFont("Segoe UI", 15, QFont.Bold))
 
-        layout.addSpacing(10)
-        layout.addWidget(analysis_title)
+        layout.addSpacing(20)
+        layout.addWidget(graph_title)
 
-        analysis_frame = QFrame()
-        analysis_frame.setObjectName("ResultCard")
+        graph_frame = QFrame()
+        graph_frame.setObjectName("ResultCard")
+        graph_frame.setMinimumHeight(320)
 
-        analysis_layout = QVBoxLayout(analysis_frame)
+        graph_layout = QVBoxLayout(graph_frame)
 
-        analysis_label = QLabel(
-        "Aquí se visualizarán los gráficos del estudio."
+        chart = MonthlyGenerationChart(self.result)
+        chart.setMinimumHeight(280)
+
+        graph_layout.addWidget(chart)
+
+        layout.addWidget(graph_frame)
+
+        # ==========================================
+        # FLUJO DE CAJA
+        # ==========================================
+
+        cash_title = QLabel("FLUJO DE CAJA ACUMULADO")
+        cash_title.setAlignment(Qt.AlignCenter)
+        cash_title.setFont(QFont("Segoe UI", 15, QFont.Bold))
+
+        layout.addSpacing(20)
+        layout.addWidget(cash_title)
+
+        cash_frame = QFrame()
+        cash_frame.setObjectName("ResultCard")
+        cash_frame.setMinimumHeight(400)
+
+        cash_layout = QVBoxLayout(cash_frame)
+        cash_layout.setContentsMargins(15, 15, 15, 15)
+
+        cash_chart = CashFlowChart(self.result)
+
+        cash_layout.addWidget(cash_chart,1)
+
+        layout.addWidget(cash_frame)
+
+        # INDICADORES FINANCIEROS
+
+        finance_title = QLabel("INDICADORES FINANCIEROS")
+        finance_title.setAlignment(Qt.AlignCenter)
+        finance_title.setFont(QFont("Segoe UI", 15, QFont.Bold))
+
+        layout.addSpacing(20)
+        layout.addWidget(finance_title)
+
+        finance_layout = QHBoxLayout()
+        finance_layout.setSpacing(20)
+
+        roi_card = MetricCard(
+            "ROI",
+            f"{self.result.roi} %",
+            "Retorno anual",
+             "#4CAF50"
         )
 
-        analysis_label.setAlignment(Qt.AlignCenter)
-        analysis_label.setFont(QFont("Segoe UI", 11))
+        van_card = MetricCard(
+            "VAN",
+            f"${self.result.van:,.0f}",
+            "valor actual neto",
+             "#2196F3"
+        )
 
-        analysis_layout.addStretch()
-        analysis_layout.addWidget(analysis_label)
-        analysis_layout.addStretch()
+        tir_card = MetricCard(
+            "TIR",
+            f"{self.result.tir:,.0f} %",
+            "Tasa interna de retorno",
+             "#4CAF50"
+        )
+        
 
-        layout.addWidget(analysis_frame)
+        finance_layout.addWidget(roi_card)
+        finance_layout.addWidget(van_card)
+        finance_layout.addWidget(tir_card)
+         
+        layout.addLayout(finance_layout)
+
+      
 
        
 

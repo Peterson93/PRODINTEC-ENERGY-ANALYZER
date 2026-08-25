@@ -77,4 +77,28 @@ def load_stylesheet():
     QLabel#StatCardValue{{
     background-color: transparent;
     }}
+
+    QFrame#MetricCard{{
+    background-color:#242424;
+    border:1px solid #343434;
+    border-radius:12px;
+}}
+
+QLabel#MetricTitle{{
+    font-size:12px;
+    color:#BDBDBD;
+    background:transparent;
+}}
+
+QLabel#MetricValue{{
+    font-size:28px;
+    font-weight:700;
+    background:transparent;
+}}
+
+QLabel#MetricSubtitle{{
+    font-size:11px;
+    color:#8E8E8E;
+    background:transparent;
+}}
     """
